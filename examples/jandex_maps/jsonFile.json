@@ -1,0 +1,44 @@
+{
+	"collectionItems":[
+		{	
+			"preset":"islands#darkOrangeIcon",
+			"items":[
+				{
+					"coordse":[55.75, 37.50],
+					"ballonHeader":"Header text1",
+					"ballonBody":"Body text1"
+				},
+				{
+					"coordse":[55.75, 37.71],
+					"ballonHeader":"Header text2",
+					"ballonBody":"Body text2",
+					"ballonFooter":"Footer text2"
+				},
+				{
+					"coordse":[55.70, 37.70],
+					"ballonHeader":"Header text3",
+					"ballonBody":"Body text3",
+					"ballonFooter":"Footer text3"
+				}
+			]
+			
+		},
+		{
+			"preset":"islands#pinkIcon",
+			"items":[
+				{"coordse":[55.76, 37.49]},
+				{"coordse":[55.76, 37.56]},
+				{"coordse":[55.76, 37.55]},
+				{"coordse":[55.73, 37.60]}
+	        ]
+		},
+		{
+			"preset":"islands#greenIcon",
+			"items":[
+				{"coordse":[55.70, 37.53]},
+				{"coordse":[55.70, 37.70]},
+				{"coordse":[55.75, 37.71]}
+	        ]
+		}
+	]
+}
