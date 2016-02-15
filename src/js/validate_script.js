@@ -107,7 +107,7 @@ function validationCall(form){
         success : function(data){
             if ( data.trim() == 'true') {
                 thisForm.trigger("reset");
-                popNext();
+                popNext("#call_success", "call-popup");
             }
             else {
                thisForm.trigger('reset');
@@ -115,28 +115,81 @@ function validationCall(form){
 
         }
     });
-
-    function popNext(){
-        $.fancybox.open("#call_success",{
-            padding:0,
-            fitToView:false,
-            wrapCSS:"call-popup",
-            autoSize:true,
-            afterClose: function(){
-                $('form').trigger("reset");
-                clearTimeout(timer);
-            }
-        });
-        var timer = null;
-
-        timer = setTimeout(function(){
-            $('form').trigger("reset");
-            $.fancybox.close("#call_success");
-        },2000);
-
-
-    }
 }
+
+/* Отправка формы с файлом */
+function validationCallDocument(form){
+
+    var thisForm = $(form);
+    var formData = new FormData($(form)[0]);
+
+    formData.append('file', thisForm.find('input[type=file]')[0].files[0]);
+
+    $.ajax({
+        url: thisForm.attr('action'),
+        type: "POST",
+        data: formData,
+        contentType:false,
+        processData:false,
+        cache:false,
+        success: function(response) {
+            thisForm.trigger("reset");
+            popNext("#call_success", "call-popup");
+        }
+    });
+
+}
+
+/* Отправка формы с файлaми */
+function validationCallDocument(form){
+
+    var thisForm = $(form);
+    var formData = new FormData($(form)[0]);
+
+    $.each(thisForm.find('input[type="file"]')[0].files, function(index, file){
+        formData.append('file-'+index, file);
+    });
+
+    $.ajax({
+        url: thisForm.attr('action'),
+        type: "POST",
+        data: formData,
+        contentType:false,
+        processData:false,
+        cache:false,
+        success: function(response) {
+            thisForm.trigger("reset");
+            popNext("#call_success", "call-popup");
+        }
+    });
+
+}
+
+
+function popNext(popupId, popupWrap){
+
+    $.fancybox.open(popupId,{
+        padding:0,
+        fitToView:false,
+        wrapCSS:popupWrap,
+        autoSize:true,
+        afterClose: function(){
+            $('form').trigger("reset");
+            clearTimeout(timer);
+        }
+    });
+
+    var timer = null;
+
+    timer = setTimeout(function(){
+        $('form').trigger("reset");
+        $.fancybox.close(popupId);
+    },2000);
+
+}
+
+
+
 /*маска на инпуте*/
 function Maskedinput(){
     if($('.tel-mask')){
