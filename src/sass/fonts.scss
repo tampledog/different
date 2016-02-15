@@ -15,8 +15,9 @@
 }
 
 /* fonts */
+//  example -> @include font-face('PFDinTextPro', 'PFDinTextPro-Bold', 700, italic);
 
 @include font-face('slick');
-@include font-face('bootstrap-icon', 'glyphicons-halflings-regular');
+
 
 /* /fonts*/

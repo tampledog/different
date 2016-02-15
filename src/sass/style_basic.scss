@@ -12,9 +12,9 @@
 /* /helping adds*/
 
 /* base styles*/
-*{box-sizing:border-box;outline:none;}
-html{height:100%;font-size:1px;}
-body{min-height:100%;width:100%;font-family:arial,sans-serif;background:#fff;color:#3d3d3d;position:relative;font-size: 16px;}
+*,*:before, *:after{box-sizing:border-box;outline:none;}
+html{height:100%;}
+body{min-height:100%;width:100%;font-family:arial,sans-serif;background:#fff;color:#3d3d3d;position:relative;font-size: 16px;line-height: 1;}
 img{vertical-align:bottom;border:0;max-width:100%;}
 
 /* /base styles */
@@ -35,4 +35,12 @@ img{vertical-align:bottom;border:0;max-width:100%;}
 ::-moz-placeholder {color:#212121;}
 :-ms-input-placeholder {color:#212121;}
 
+a[href^="http"]:empty::before {
+  content: attr(href);
+}
+
+a[href] {
+  text-decoration: underline;
+  &:hover,&:active{text-decoration: none;}
+}
 /*End Layout*/
