@@ -141,7 +141,7 @@ function validationCallDocument(form){
 }
 
 /* Отправка формы с файлaми */
-function validationCallDocument(form){
+function validationCallDocuments(form){
 
     var thisForm = $(form);
     var formData = new FormData($(form)[0]);
