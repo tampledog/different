@@ -6,6 +6,9 @@ jQuery.browser.msie = /msie/.test(navigator.userAgent.toLowerCase());
 
 var scroller=jQuery.browser.webkit ? "body": "html";
 
+$.scrollbarWidth=function(){var a,b,c;if(c===undefined){a=$('<div style="width:50px;height:50px;overflow:auto"><div/></div>').appendTo('body');b=a.children();c=b.innerWidth()-b.height(99).innerWidth();a.remove()}return c};
+
+
 /* scrollUp */
 function scrollUp(block,targetBlock) {
 
@@ -91,6 +94,29 @@ function cutText(){
         }
     });
 };
+
+/*header buter*/
+function headeButer(menuMobile,toggleMenu){
+    if(menuMobile){
+        menuMobile.click(function(event) {
+            if($(window).width()<1024-$.scrollbarWidth()){
+                $(this).toggleClass('active');
+                toggleMenu.stop().slideToggle();
+            }
+        });
+
+        $(document).on('click touchstart',function (event){
+            if($(window).width()<1024-$.scrollbarWidth()){
+                var div = toggleMenu;
+                if (!div.is(event.target) && div.has(event.target).length === 0 && !menuMobile.is(event.target) && menuMobile.has(event.target).length === 0)
+                    {
+                        toggleMenu.slideUp();
+                        menuMobile.removeClass('active');
+                    }
+            }
+        });
+    }
+}
 
 /* DOCUMENT READY  */
 $(document).ready(function() {
