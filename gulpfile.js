@@ -8,7 +8,6 @@ var gulp = require('gulp'),
     autoprefixer = require('gulp-autoprefixer'),
     uglify = require('gulp-uglify'),
     rigger = require('gulp-rigger'),
-    rimraf = require('rimraf'),
     browserSync = require("browser-sync"),
     reload = browserSync.reload;
 
