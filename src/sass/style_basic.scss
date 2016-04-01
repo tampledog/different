@@ -14,7 +14,7 @@
 /* base styles*/
 *,*:before, *:after{box-sizing:border-box;outline:none;}
 html{height:100%;}
-body{min-height:100%;width:100%;font-family:arial,sans-serif;background:#fff;color:#3d3d3d;position:relative;font-size: 16px;line-height: 1;}
+body{min-height:100%;width:100%;min-width:320px;font-family:arial,sans-serif;background:#fff;color:#3d3d3d;position:relative;font-size: 16px;line-height: 1;}
 img{vertical-align:bottom;border:0;max-width:100%;}
 
 /* /base styles */

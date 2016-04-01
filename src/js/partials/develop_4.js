@@ -1,20 +1,14 @@
-try{
 
-    $(document).ready(function(){
 
-    });
 
-    $(window).load(function(){
+$(document).ready(function(){
 
-    });
+});
 
-    $(window).resize(function(){
+$(window).load(function(){
 
-    });
+});
 
-}
-catch(e){
+$(window).resize(function(){
 
-    console.log('develop_4.js \n Error! '+e.name+':'+e.message+'\n'+e.stack);
-
-}
+});
