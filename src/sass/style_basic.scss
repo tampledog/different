@@ -13,6 +13,7 @@
 
 /* base styles*/
 *,*:before, *:after{box-sizing:border-box;outline:none;}
+*,body,html{-webkit-text-size-adjust: none;-webkit-appearance: none;max-height: 9001em;}
 html{height:100%;}
 body{min-height:100%;width:100%;min-width:320px;font-family:arial,sans-serif;background:#fff;color:#3d3d3d;position:relative;font-size: 16px;line-height: 1;}
 img{vertical-align:bottom;border:0;max-width:100%;}
@@ -35,12 +36,24 @@ img{vertical-align:bottom;border:0;max-width:100%;}
 ::-moz-placeholder {color:#212121;}
 :-ms-input-placeholder {color:#212121;}
 
-a[href^="http"]:empty::before {
-  content: attr(href);
+/*End Layout*/
+
+/*fonts*/
+@mixin font-face($style-name, $file:$style-name, $weight:normal, $style:normal) {
+    $filepath: "../fonts/" + $file;
+    @font-face {
+        font-family: quote($style-name);
+        src: url($filepath + ".eot");
+        src: url($filepath + ".eot?#iefix") format('embedded-opentype'),
+        url($filepath + ".woff") format('woff'),
+        url($filepath + ".ttf")  format('truetype'),
+        url($filepath + ".svg#" + $style-name + "") format('svg');
+        font-weight: $weight;
+        font-style: $style;
+    }
 }
 
-a[href] {
-  text-decoration: underline;
-  &:hover,&:active{text-decoration: none;}
-}
-/*End Layout*/
+//  example -> @include font-face('PFDinTextPro', 'PFDinTextPro-Bold', 700, italic);
+
+
+/*/fonts*/

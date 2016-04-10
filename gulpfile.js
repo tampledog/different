@@ -1,10 +1,12 @@
 'use strict';
 
-// gem install sass (for ruby)
-
 var gulp = require('gulp'),
     watch = require('gulp-watch'),
-    sass = require('gulp-ruby-sass'),
+    sass = require('gulp-sass'),
+    concat = require('gulp-concat'),
+    clean = require('gulp-clean'),
+    cache = require('gulp-cached'),
+    htmlreplace = require('gulp-html-replace'),
     autoprefixer = require('gulp-autoprefixer'),
     uglify = require('gulp-uglify'),
     rigger = require('gulp-rigger'),
@@ -23,7 +25,7 @@ var gulp = require('gulp'),
         src: { //Пути откуда брать исходники
             html: 'src/*.html', //Синтаксис src/*.html говорит gulp что мы хотим взять все файлы с расширением .html
             js: 'src/js/*.js',//В стилях и скриптах нам понадобятся только main файлы
-            style: 'src/sass/style.scss',
+            style: 'src/sass/**/*.scss',
             img: 'src/images/**/*.*', //Синтаксис img/**/*.* означает - взять все файлы всех расширений из папки и из вложенных каталогов
             fonts: 'src/fonts/**/*.*',
             php:'src/*.php'
@@ -46,8 +48,13 @@ var config = {
     tunnel: false,
     host: 'localhost',
     port: 3333,
-    logPrefix: "basic_frontend"
+    logPrefix: "я_бессмертный_пони_♥"
 };
+
+gulp.task('clear:prod', function () {
+  return gulp.src(['./build/js/main.js', './build/css/style.css'], {read: false})
+    .pipe(clean());
+});
 
 gulp.task('html:build', function () {
     gulp.src(path.src.html) //Выберем файлы по нужному пути
@@ -57,15 +64,16 @@ gulp.task('html:build', function () {
 });
 
 gulp.task('js:build', function () {
-    gulp.src(path.src.js) //Найдем наш main файл
-        .pipe(rigger()) //Прогоним через rigger
+    gulp.src('src/js/**/*.js') //Найдем наш main файл
+        //.pipe(rigger()) //Прогоним через rigger
         .pipe(gulp.dest(path.build.js)) //Выплюнем готовый файл в build
         .pipe(reload({stream: true})); //И перезагрузим сервер
 });
 
 gulp.task('style:build', function () {
-    return sass(path.src.style)
-    .on('error', sass.logError)
+    return gulp.src(path.src.style)
+    .pipe(cache())
+    .pipe(sass.sync().on('error', sass.logError))
     .pipe(autoprefixer({
         browsers: ['> 0%'],
         cascade: false
@@ -92,6 +100,7 @@ gulp.task('php:build',function(){
 
 
 gulp.task('build', [
+    'clear:prod',
     'html:build',
     'js:build',
     'style:build',
@@ -126,13 +135,44 @@ gulp.task('webserver', function () {
     browserSync(config);
 });
 
+
+
+
+gulp.task('prod_css', function() {
+    return gulp.src(['./build/css/reset.css', './build/css/style_basic.css', './build/css/plagins/*.css','./build/css/develop/*.css','./build/css/adaptation_develop/*.css'])
+    .pipe(concat('style.css'))
+    .pipe(gulp.dest(path.build.css));
+});
+gulp.task('clean_css',['prod_css'], function () {
+  return gulp.src(['./build/css/reset.css', './build/css/style_basic.css', './build/css/plagins/','./build/css/develop/','./build/css/adaptation_develop/'], {read: false})
+    .pipe(clean());
+});
+
+gulp.task('clean_js',['prod_js'], function () {
+  return gulp.src(['./build/js/plagins/', './build/js/basic_scripts.js', './build/js/develop_5.js','./build/js/develop_4.js','./build/js/develop_2.js','./build/js/develop_1.js'], {read: false})
+    .pipe(clean());
+});
+gulp.task('prod_js', function() {
+    return gulp.src(['./build/js/plagins/*.js', './build/js/basic_scripts.js', './build/js/develop_5.js','./build/js/develop_4.js','./build/js/develop_2.js,./build/js/develop_1.js'])
+    .pipe(concat('main.js'))
+    .pipe(gulp.dest(path.build.js));
+});
+
+gulp.task('prod_html', function() {
+  gulp.src('./build/*.html')
+    .pipe(htmlreplace({
+        'css': 'css/style.css',
+        'js': 'js/main.js'
+    }))
+    .pipe(gulp.dest(path.build.html))
+    .pipe(reload({stream: true}));
+});
+
 // minify functions
 
-gulp.task('css-minify', function() {
-    return sass(path.src.style,{
-        style: 'compressed'
-    })
-    .on('error', sass.logError)
+gulp.task('css_min', function() {
+    return gulp.src(path.src.style)
+    .pipe(sass({outputStyle: 'compressed'}).on('error', sass.logError))
     .pipe(autoprefixer({
         browsers: ['> 0%'],
         cascade: false
@@ -141,13 +181,11 @@ gulp.task('css-minify', function() {
     .pipe(reload({stream: true}));
 });
 
-gulp.task('js-minify', function(){
-
-    gulp.src('build/js/main.js')
-    .pipe(uglify()) //Сожмем наш js
+gulp.task('js_min', function(){
+    gulp.src('./build/js/main.js')
+    .pipe(uglify())
     .pipe(gulp.dest(path.build.js))
     .pipe(reload({stream: true}));
-
 });
 
 // /minify functions
@@ -155,3 +193,5 @@ gulp.task('js-minify', function(){
 gulp.task('default', ['build', 'webserver', 'watch']);
 
 gulp.task('minify', ['css-minify', 'js-minify']);
+
+gulp.task('prod', ['prod_css', 'clean_css', 'prod_js', 'clean_js', 'prod_html', 'webserver']);
