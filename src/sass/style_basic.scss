@@ -20,7 +20,7 @@ body{min-height:100%;width:100%;min-width:320px;font-family:arial,sans-serif;bac
     /* styles for wp-admin panel */
 
     &.customize-support{
-        .wp-panel-show{top:32px;}
+        .wp-panel-show{top:32px;} //fixed elements (if their has top:0) must has class .wp-panel-show
     }
 
     /* /styles for wp-admin panel */
