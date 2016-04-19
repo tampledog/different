@@ -15,7 +15,7 @@ function scrollUp(block,targetBlock) {
     $(block).click(function(e){
         var target = $(targetBlock).offset().top;
 
-        $(scroller).animate({scrollTop:target},800);
+        $(scroller).stop().animate({scrollTop:target},800);
         return false;
 
         e.preventDefault();
