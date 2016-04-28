@@ -149,11 +149,11 @@ gulp.task('clean_css',['prod_css'], function () {
 });
 
 gulp.task('clean_js',['prod_js'], function () {
-  return gulp.src(['./build/js/plagins/', './build/js/basic_scripts.js', './build/js/develop_5.js','./build/js/develop_4.js','./build/js/develop_2.js','./build/js/develop_1.js'], {read: false})
+  return gulp.src(['./build/js/plagins/', './build/js/basic_scripts.js', './build/js/develop/'], {read: false})
     .pipe(clean());
 });
 gulp.task('prod_js', function() {
-    return gulp.src(['./build/js/plagins/*.js', './build/js/basic_scripts.js', './build/js/develop_5.js','./build/js/develop_4.js','./build/js/develop_2.js,./build/js/develop_1.js'])
+    return gulp.src(['./build/js/plagins/*.js', './build/js/basic_scripts.js', './build/js/develop/*.js'])
     .pipe(concat('main.js'))
     .pipe(gulp.dest(path.build.js));
 });
@@ -192,6 +192,6 @@ gulp.task('js_min', function(){
 
 gulp.task('default', ['build', 'webserver', 'watch']);
 
-gulp.task('minify', ['css-minify', 'js-minify']);
+gulp.task('minify', ['css_min', 'js_min']);
 
 gulp.task('prod', ['prod_css', 'clean_css', 'prod_js', 'clean_js', 'prod_html', 'webserver']);
