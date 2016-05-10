@@ -178,11 +178,13 @@ gulp.task('prod_html', function() {
 
 gulp.task('css_min', function() {
     return gulp.src(path.src.style)
+    .pipe(cache())
     .pipe(sass({outputStyle: 'compressed'}).on('error', sass.logError))
     .pipe(autoprefixer({
         browsers: ['> 0%'],
         cascade: false
     }))
+    .pipe(concat('style.css'))
     .pipe(gulp.dest(path.build.css))
     .pipe(reload({stream: true}));
 });
