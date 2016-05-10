@@ -11,6 +11,21 @@
 
 /* /helping adds*/
 
+/* ctext */
+
+    .ctext{
+        h1, h2, h3, h4, h5, h6{line-height: 1.25;margin-bottom: 15px;font-weight: 700;}
+        h1{font-size: 36px;}
+        h2{font-size: 32px;}
+        h3{font-size: 28px;}
+        h4{font-size: 24px;}
+        h5{font-size: 20px;}
+        h6{font-size: 16px;}
+        p{margin-bottom: 10px;font-size: 14px;}
+    }
+
+/* /ctext */
+
 /* base styles*/
 *,*:before, *:after{box-sizing:border-box;outline:none;}
 *,body,html{-webkit-text-size-adjust: none;-webkit-appearance: none;max-height: 9001em;}
