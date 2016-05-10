@@ -136,16 +136,22 @@ gulp.task('webserver', function () {
 });
 
 
+gulp.task('clean_css', function () {
+  return gulp.src(['./build/css/'], {read: false})
+    .pipe(clean());
+});
 
+gulp.task('prod_css',['clean_css'],function() {
 
-gulp.task('prod_css', function() {
-    return gulp.src(['./build/css/reset.css', './build/css/style_basic.css', './build/css/plagins/*.css','./build/css/develop/*.css','./build/css/adaptation_develop/*.css'])
+    return gulp.src(path.src.style)
+    .pipe(cache())
+    .pipe(sass.sync().on('error', sass.logError))
+    .pipe(autoprefixer({
+        browsers: ['> 0%'],
+        cascade: false
+    }))
     .pipe(concat('style.css'))
     .pipe(gulp.dest(path.build.css));
-});
-gulp.task('clean_css',['prod_css'], function () {
-  return gulp.src(['./build/css/reset.css', './build/css/style_basic.css', './build/css/plagins/','./build/css/develop/','./build/css/adaptation_develop/'], {read: false})
-    .pipe(clean());
 });
 
 gulp.task('clean_js',['prod_js'], function () {
@@ -194,4 +200,4 @@ gulp.task('default', ['build', 'webserver', 'watch']);
 
 gulp.task('minify', ['css_min', 'js_min']);
 
-gulp.task('prod', ['prod_css', 'clean_css', 'prod_js', 'clean_js', 'prod_html', 'webserver']);
+gulp.task('prod', [ 'clean_css','prod_css', 'prod_js', 'clean_js', 'prod_html', 'webserver']);
