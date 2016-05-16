@@ -1,0 +1,10 @@
+node_modules/*
+node_modules
+.sass-cache
+.sass-cache/
+build/*
+build
+.idea
+.idea/
+.vscode
+.vscode/
