@@ -146,6 +146,16 @@ function headeButer(menuMobile,toggleMenu){
     }
 }
 
+/* expresion for numbers with spaces */
+
+    function numberWithSpaces(x) {
+        var parts = x.toString().split(".");
+        parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+        return parts.join(".");
+    }
+
+/* /expresion for numbers with spaces */
+
 /* DOCUMENT READY  */
 $(document).ready(function() {
     //oneHeightItems();
