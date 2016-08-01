@@ -17,23 +17,27 @@
 
                 var startNum = options.startN;
                 var endNum = options.endN;
-                if (typeof object.attr('data-start-num') !== typeof undefined && object.attr('data-start-num') !== false){ startNum = parseInt(object.attr('data-start-num'));}
-                if (typeof object.attr('data-end-num') !== typeof undefined && object.attr('data-end-num') !== false){endNum = parseInt(object.attr('data-end-num'));  }
+                var duration = options.duration;
+                var separator = options.separator;
+                if (typeof object.attr('data-options-startN') !== typeof undefined && object.attr('data-options-startN') !== false){ startNum = parseInt(object.attr('data-options-startN'));}
+                if (typeof object.attr('data-options-endN') !== typeof undefined && object.attr('data-options-endN') !== false){endNum = parseInt(object.attr('data-options-endN'));  }
+                if (typeof object.attr('data-options-duration') !== typeof undefined && object.attr('data-options-duration') !== false){duration = parseInt(object.attr('data-options-duration'));  }
+                if (typeof object.attr('data-options-separator') !== typeof undefined && object.attr('data-options-separator') !== false){separator = object.attr('data-options-separator');  }
 
 
-                var interval = (endNum - startNum)/options.duration;
+                var interval = (endNum - startNum)/duration;
 
                 var currentNum = interval * (1000/options.fps);
                 var showNum =currentNum;
                 var timer = setInterval(function () {
 
                     var str = ""+(showNum-showNum%1);
-                    str = str.replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1'+options.separator+'');
+                    str = str.replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1'+separator+'');
                     object.text(str);
                     showNum = showNum + currentNum;
                     if (showNum>=endNum){
                         str = ""+endNum;
-                        str = str.replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1'+options.separator+'');
+                        str = str.replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1'+separator+'');
                         object.text(str);
                         clearInterval(timer);
                     }
