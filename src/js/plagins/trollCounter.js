@@ -4,7 +4,8 @@
         duration:3000,
         fps:25,
         startN:0,
-        endN:1000
+        endN:1000,
+        separator:" "
     };
     var methods = {
 
@@ -26,11 +27,14 @@
                 var showNum =currentNum;
                 var timer = setInterval(function () {
 
-
-                    object.text(showNum-showNum%1);
+                    var str = ""+(showNum-showNum%1);
+                    str = str.replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1'+options.separator+'');
+                    object.text(str);
                     showNum = showNum + currentNum;
                     if (showNum>=endNum){
-                        object.text(endNum);
+                        str = ""+endNum;
+                        str = str.replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1'+options.separator+'');
+                        object.text(str);
                         clearInterval(timer);
                     }
                 }, 1000/options.fps);
