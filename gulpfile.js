@@ -48,7 +48,7 @@ var config = {
     tunnel: false,
     host: 'localhost',
     port: 3333,
-    logPrefix: "я_бессмертный_пони_♥"
+    logPrefix: "♥_YARRR_♥"
 };
 
 gulp.task('clear:prod', function () {

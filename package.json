@@ -1,5 +1,5 @@
 {
-  "name": "ship.fish.frontend",
+  "name": "trolizmaslom",
   "version": "1.4.1",
   "description": "basic verst",
   "author": "",
@@ -8,12 +8,12 @@
     "gulp": "^3.9.1",
     "gulp-autoprefixer": "^3.1.0",
     "gulp-rigger": "^0.5.8",
-    "gulp-uglify": "^1.1.0",
+    "gulp-uglify": "^2.1.2",
     "gulp-watch": "^4.3.5",
     "gulp-cached": "^1.1.0",
     "gulp-clean": "^0.3.2",
     "gulp-concat": "^2.6.0",
     "gulp-html-replace": "^1.5.5",
-    "gulp-sass": "^2.2.0"
+    "gulp-sass": "^3.1.0"
   }
 }
