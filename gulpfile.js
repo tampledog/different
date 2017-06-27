@@ -13,33 +13,34 @@ var gulp = require('gulp'),
     browserSync = require("browser-sync"),
     reload = browserSync.reload;
 
-    var path = {
-        build: { //Тут мы укажем куда складывать готовые после сборки файлы
-            html: 'build/',
-            js: 'build/js/',
-            css: 'build/css/',
-            img: 'build/images/',
-            fonts: 'build/fonts/',
-            php:'build/'
-        },
-        src: { //Пути откуда брать исходники
-            html: 'src/*.html', //Синтаксис src/*.html говорит gulp что мы хотим взять все файлы с расширением .html
-            js: 'src/js/*.js',//В стилях и скриптах нам понадобятся только main файлы
-            style: 'src/sass/**/*.scss',
-            img: 'src/images/**/*.*', //Синтаксис img/**/*.* означает - взять все файлы всех расширений из папки и из вложенных каталогов
-            fonts: 'src/fonts/**/*.*',
-            php:'src/*.php'
-        },
-        watch: { //Тут мы укажем, за изменением каких файлов мы хотим наблюдать
-            html: 'src/*.html',
-            part:'src/partials/*.html' ,
-            js: 'src/js/*.js',
-            jsplug:  'src/js/plagins/*.js',
-            style: 'src/sass/*.scss',
-            img: 'src/image/*.*'
-        },
-        clean: './build'
-    };
+var path = {
+    build: { //Тут мы укажем куда складывать готовые после сборки файлы
+        html: 'build/',
+        js: 'build/js/',
+        css: 'build/css/',
+        img: 'build/images/',
+        fonts: 'build/fonts/',
+        php:'build/'
+    },
+    src: { //Пути откуда брать исходники
+        html: 'src/*.html', //Синтаксис src/*.html говорит gulp что мы хотим взять все файлы с расширением .html
+        js: 'src/js/*.js',//В стилях и скриптах нам понадобятся только main файлы
+        style: 'src/sass/**/*.scss',
+        img: 'src/images/*.*', //Синтаксис img/**/*.* означает - взять все файлы всех расширений из папки и из вложенных каталогов
+        fonts: 'src/fonts/**/*.*',
+        php:'src/*.php'
+    },
+    watch: { //Тут мы укажем, за изменением каких файлов мы хотим наблюдать
+        html: 'src/*.html',
+        part:'src/partials/*.html' ,
+
+        js: 'src/js/*.js',
+        jsplug:  'src/js/plagins/*.js',
+        style: 'src/sass/*.scss',
+        img: 'src/images/*.*'
+    },
+    clean: './build'
+};
 
 var config = {
     server: {
@@ -52,8 +53,8 @@ var config = {
 };
 
 gulp.task('clear:prod', function () {
-  return gulp.src(['./build/js/main.js', './build/css/style.css'], {read: false})
-    .pipe(clean());
+    return gulp.src(['./build/js/main.js', './build/css/style.css'], {read: false})
+        .pipe(clean());
 });
 
 gulp.task('html:build', function () {
@@ -65,21 +66,21 @@ gulp.task('html:build', function () {
 
 gulp.task('js:build', function () {
     gulp.src('src/js/**/*.js') //Найдем наш main файл
-        //.pipe(rigger()) //Прогоним через rigger
+    //.pipe(rigger()) //Прогоним через rigger
         .pipe(gulp.dest(path.build.js)) //Выплюнем готовый файл в build
         .pipe(reload({stream: true})); //И перезагрузим сервер
 });
 
 gulp.task('style:build', function () {
     return gulp.src(path.src.style)
-    .pipe(cache())
-    .pipe(sass.sync().on('error', sass.logError))
-    .pipe(autoprefixer({
-        browsers: ['> 0%'],
-        cascade: false
-    }))
-    .pipe(gulp.dest(path.build.css))
-    .pipe(reload({stream: true}));
+        .pipe(cache())
+        .pipe(sass.sync().on('error', sass.logError))
+        .pipe(autoprefixer({
+            browsers: ['> 0%'],
+            cascade: false
+        }))
+        .pipe(gulp.dest(path.build.css))
+        .pipe(reload({stream: true}));
 });
 
 gulp.task('image:build', function () {
@@ -116,6 +117,7 @@ gulp.task('watch', function(){
     watch([path.watch.part], function(event, cb) {
         gulp.start('html:build');
     });
+
     watch([path.watch.style], function(event, cb) {
         gulp.start('style:build');
     });
@@ -126,9 +128,8 @@ gulp.task('watch', function(){
         gulp.start('js:build');
     });
     watch([path.watch.img], function(event, cb) {
-        gulp.start('imgage:build');
+        gulp.start('image:build');
     });
-
 });
 
 
@@ -138,63 +139,63 @@ gulp.task('webserver', function () {
 
 
 gulp.task('clean_css', function () {
-  return gulp.src(['./build/css/'], {read: false})
-    .pipe(clean());
+    return gulp.src(['./build/css/'], {read: false})
+        .pipe(clean());
 });
 
 gulp.task('prod_css',['clean_css'],function() {
 
     return gulp.src(path.src.style)
-    .pipe(cache())
-    .pipe(sass.sync().on('error', sass.logError))
-    .pipe(autoprefixer({
-        browsers: ['> 0%'],
-        cascade: false
-    }))
-    .pipe(concat('style.css'))
-    .pipe(gulp.dest(path.build.css));
+        .pipe(cache())
+        .pipe(sass.sync().on('error', sass.logError))
+        .pipe(autoprefixer({
+            browsers: ['> 0%'],
+            cascade: false
+        }))
+        .pipe(concat('style.css'))
+        .pipe(gulp.dest(path.build.css));
 });
 
 gulp.task('clean_js',['prod_js'], function () {
-  return gulp.src(['./build/js/plagins/', './build/js/basic_scripts.js', './build/js/develop/'], {read: false})
-    .pipe(clean());
+    return gulp.src(['./build/js/plagins/', './build/js/basic_scripts.js', './build/js/develop/'], {read: false})
+        .pipe(clean());
 });
 gulp.task('prod_js', function() {
     return gulp.src(['./build/js/plagins/*.js', './build/js/basic_scripts.js', './build/js/develop/*.js'])
-    .pipe(concat('main.js'))
-    .pipe(gulp.dest(path.build.js));
+        .pipe(concat('main.js'))
+        .pipe(gulp.dest(path.build.js));
 });
 
 gulp.task('prod_html', function() {
-  gulp.src('./build/*.html')
-    .pipe(htmlreplace({
-        'css': 'css/style.css',
-        'js': 'js/main.js'
-    }))
-    .pipe(gulp.dest(path.build.html))
-    .pipe(reload({stream: true}));
+    gulp.src('./build/*.html')
+        .pipe(htmlreplace({
+            'css': 'css/style.css',
+            'js': 'js/main.js'
+        }))
+        .pipe(gulp.dest(path.build.html))
+        .pipe(reload({stream: true}));
 });
 
 // minify functions
 
 gulp.task('css_min', function() {
     return gulp.src(path.src.style)
-    .pipe(cache())
-    .pipe(sass({outputStyle: 'compressed'}).on('error', sass.logError))
-    .pipe(autoprefixer({
-        browsers: ['> 0%'],
-        cascade: false
-    }))
-    .pipe(concat('style.css'))
-    .pipe(gulp.dest(path.build.css))
-    .pipe(reload({stream: true}));
+        .pipe(cache())
+        .pipe(sass({outputStyle: 'compressed'}).on('error', sass.logError))
+        .pipe(autoprefixer({
+            browsers: ['> 0%'],
+            cascade: false
+        }))
+        .pipe(concat('style.css'))
+        .pipe(gulp.dest(path.build.css))
+        .pipe(reload({stream: true}));
 });
 
 gulp.task('js_min', function(){
     gulp.src('./build/js/main.js')
-    .pipe(uglify())
-    .pipe(gulp.dest(path.build.js))
-    .pipe(reload({stream: true}));
+        .pipe(uglify())
+        .pipe(gulp.dest(path.build.js))
+        .pipe(reload({stream: true}));
 });
 
 // /minify functions
