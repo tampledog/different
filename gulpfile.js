@@ -28,12 +28,13 @@ var path = {
         style: 'src/sass/**/*.scss',
         img: 'src/images/*.*', //Синтаксис img/**/*.* означает - взять все файлы всех расширений из папки и из вложенных каталогов
         fonts: 'src/fonts/**/*.*',
-        php:'src/*.php'
+        php:'src/*.php',
+        sprite:'src/images/sprite.svg'
     },
     watch: { //Тут мы укажем, за изменением каких файлов мы хотим наблюдать
         html: 'src/*.html',
         part:'src/partials/*.html' ,
-
+        sprite:'src/images/sprite.svg',
         js: 'src/js/*.js',
         jsplug:  'src/js/plagins/*.js',
         style: 'src/sass/*.scss',
@@ -98,12 +99,17 @@ gulp.task('php:build',function(){
     gulp.src(path.src.php)
         .pipe(gulp.dest(path.build.php));
 });
+gulp.task('sprite:build',function(){
+    gulp.src(path.src.sprite)
+        .pipe(gulp.dest(path.build.img));
+});
 
 
 gulp.task('build', [
     'clear:prod',
     'html:build',
     'js:build',
+    'sprite:build',
     'style:build',
     'fonts:build',
     'image:build',
@@ -129,6 +135,9 @@ gulp.task('watch', function(){
     });
     watch([path.watch.img], function(event, cb) {
         gulp.start('image:build');
+    });
+    watch([path.watch.sprite], function(event, cb) {
+        gulp.start('sprite:build');
     });
 });
 
@@ -201,7 +210,5 @@ gulp.task('js_min', function(){
 // /minify functions
 
 gulp.task('default', ['build', 'webserver', 'watch']);
-
 gulp.task('minify', ['css_min', 'js_min']);
-
 gulp.task('prod', [ 'clean_css','prod_css', 'prod_js', 'clean_js', 'prod_html', 'webserver']);
